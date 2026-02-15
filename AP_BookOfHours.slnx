@@ -1,0 +1,16 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Projektmappenelemente/">
+    <File Path="I:/SteamLibrary/steamapps/common/Book of Hours/bh_Data/Managed/SecretHistories.Main.dll" />
+  </Folder>
+  <Project Path="AP_BookOfHours.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+    <Build Solution="*|Any CPU" Project="false" />
+    <Build Solution="*|x86" Project="false" />
+  </Project>
+</Solution>

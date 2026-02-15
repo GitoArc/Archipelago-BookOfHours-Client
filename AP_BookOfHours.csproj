@@ -1,0 +1,435 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<RootNamespace>AP_BookOfHours</RootNamespace>
+		<LangVersion>default</LangVersion>
+		<IsPackable>false</IsPackable>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<AssemblyName>AP_BookOfHours</AssemblyName>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Platforms>x64</Platforms>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="AllIn1SpriteShaderAssembly">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\AllIn1SpriteShaderAssembly.dll</HintPath>
+		</Reference>
+		<Reference Include="Assembly-CSharp-firstpass">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="Coffee.SoftMaskForUGUI">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Coffee.SoftMaskForUGUI.dll</HintPath>
+		</Reference>
+		<Reference Include="Coffee.SoftMaskForUGUI.R">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Coffee.SoftMaskForUGUI.R.dll</HintPath>
+		</Reference>
+		<Reference Include="Coffee.UIParticle">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Coffee.UIParticle.dll</HintPath>
+		</Reference>
+		<Reference Include="com.rlabrecque.steamworks.net">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
+		</Reference>
+		<Reference Include="DemiLib">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\DemiLib.dll</HintPath>
+		</Reference>
+		<Reference Include="DOTween">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\DOTween.dll</HintPath>
+		</Reference>
+		<Reference Include="DOTween.Modules">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\DOTween.Modules.dll</HintPath>
+		</Reference>
+		<Reference Include="DOTweenPro">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\DOTweenPro.dll</HintPath>
+		</Reference>
+		<Reference Include="DOTweenPro.Scripts">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\DOTweenPro.Scripts.dll</HintPath>
+		</Reference>
+		<Reference Include="Febucci.TextAnimator.Demo.Runtime">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Febucci.TextAnimator.Demo.Runtime.dll</HintPath>
+		</Reference>
+		<Reference Include="Febucci.TextAnimator.Runtime">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Febucci.TextAnimator.Runtime.dll</HintPath>
+		</Reference>
+		<Reference Include="GalaxyCSharp">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\GalaxyCSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="GogGalaxyScripts">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\GogGalaxyScripts.dll</HintPath>
+		</Reference>
+		<Reference Include="InspectorGadgets">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\InspectorGadgets.dll</HintPath>
+		</Reference>
+		<Reference Include="Newtonsoft.Json">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Newtonsoft.Json.dll</HintPath>
+		</Reference>
+		<Reference Include="OrbCreations">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\OrbCreations.dll</HintPath>
+		</Reference>
+		<Reference Include="PowerSpriteAnimator">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\PowerSpriteAnimator.dll</HintPath>
+		</Reference>
+		<Reference Include="SecretHistories.Constants">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\SecretHistories.Constants.dll</HintPath>
+		</Reference>
+		<Reference Include="SecretHistories.Enums">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\SecretHistories.Enums.dll</HintPath>
+		</Reference>
+		<Reference Include="SecretHistories.Interfaces">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\SecretHistories.Interfaces.dll</HintPath>
+		</Reference>
+		<Reference Include="SecretHistories.Main">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\SecretHistories.Main.dll</HintPath>
+		</Reference>
+		<Reference Include="UIWidgets">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UIWidgets.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Addressables">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Addressables.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Analytics.DataPrivacy">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Analytics.DataPrivacy.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Burst">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Burst.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Burst.Unsafe">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Burst.Unsafe.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Collections">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Collections.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Collections.LowLevel.ILSupport">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.InputSystem">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.InputSystem.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.InputSystem.ForUI">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.InputSystem.ForUI.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Mathematics">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Mathematics.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.MemoryProfiler">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.MemoryProfiler.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Postprocessing.Runtime">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Profiling.Core">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Profiling.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.RemoteConfig.Editor.Core">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.RemoteConfig.Editor.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.ResourceManager">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.ResourceManager.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.ScriptableBuildPipeline">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.ScriptableBuildPipeline.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Analytics">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Analytics.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Authentication">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Authentication.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Analytics">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Analytics.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Components">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Components.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Configuration">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Configuration.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Device">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Device.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Environments">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Environments.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Environments.Internal">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Environments.Internal.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Internal">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Internal.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Networking">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Networking.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Registration">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Registration.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Scheduler">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Scheduler.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Telemetry">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Telemetry.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.Core.Threading">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.Core.Threading.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Services.RemoteConfig">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Services.RemoteConfig.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.TextMeshPro">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Timeline">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\Unity.Timeline.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AccessibilityModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.AccessibilityModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AIModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.AIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AndroidJNIModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.AndroidJNIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AnimationModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ARModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.ARModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AssetBundleModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AudioModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ClothModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.ClothModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ClusterInputModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.ClusterInputModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ClusterRendererModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.ClusterRendererModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ContentLoadModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.ContentLoadModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CrashReportingModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.CrashReportingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.DirectorModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.DirectorModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.DSPGraphModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.DSPGraphModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.GameCenterModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.GameCenterModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.GIModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.GIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.GridModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.GridModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.HotReloadModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.HotReloadModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ImageConversionModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.IMGUIModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.InputLegacyModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.InputModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.JSONSerializeModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.LocalizationModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.LocalizationModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.NVIDIAModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.NVIDIAModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ParticleSystemModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.PerformanceReportingModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.PerformanceReportingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.Physics2DModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.PhysicsModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ProfilerModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.ProfilerModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.PropertiesModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.PropertiesModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.ScreenCaptureModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.SharedInternalsModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.SharedInternalsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.SpriteMaskModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.SpriteMaskModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.SpriteShapeModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.SpriteShapeModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.StreamingModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.StreamingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.SubstanceModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.SubstanceModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.SubsystemsModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.SubsystemsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TerrainModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.TerrainModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TerrainPhysicsModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TextCoreFontEngineModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TextCoreTextEngineModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TextRenderingModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TilemapModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.TilemapModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.TLSModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.TLSModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UI">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UI.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UIElementsModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UIModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UmbraModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UmbraModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityAnalyticsCommonModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityAnalyticsModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityConnectModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UnityConnectModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityCurlModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UnityCurlModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityTestProtocolModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestAudioModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestTextureModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestWWWModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.VehiclesModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.VehiclesModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.VFXModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.VFXModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.VideoModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.VideoModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.VirtualTexturingModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.VirtualTexturingModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.VRModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.VRModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.WindModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.WindModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.XRModule">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UnityEngine.XRModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UserReporting">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\bh_Data\Managed\UserReporting.dll</HintPath>
+		</Reference>
+		<Reference Include="MelonLoader">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\MelonLoader\net35\MelonLoader.dll</HintPath>
+		</Reference>
+		<Reference Include="0Harmony">
+			<HintPath>I:\SteamLibrary\steamapps\common\Book of Hours\MelonLoader\net35\0Harmony.dll</HintPath>
+		</Reference>
+
+	</ItemGroup>
+
+	<PropertyGroup>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="ArchipelagoConsole.cs" />
+		<Compile Include="ArchipelagoData.cs" />
+		<Compile Include="Mod.cs" />
+		<Compile Include="ArchipelagoClient.cs" />
+		<Compile Include="DeathLinkHandler.cs" />
+		<Compile Include="Patch_ConnectedTerrain.cs" />
+		<Compile Include="Patch_TransitionToState.cs" />
+		<Compile Include="Patch_WisdomNodeTerrain.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0" />
+	</ItemGroup>
+	
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="COPY &quot;$(TargetDir)$(TargetName).dll&quot; &quot;I:\SteamLibrary\steamapps\common\Book of Hours\Mods&quot;&#xD;&#xA;COPY &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;I:\SteamLibrary\steamapps\common\Book of Hours\Mods&quot;" />
+	</Target>
+</Project>
