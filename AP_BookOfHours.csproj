@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -427,6 +427,10 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="dependencies\" />
 	</ItemGroup>
 	
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
