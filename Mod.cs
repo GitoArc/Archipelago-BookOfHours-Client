@@ -147,12 +147,14 @@ public class Mod : MelonMod
         /// //////////////////////////////////////////////////////////////////////////////////
         var prec = C.GetEntitiesMatchingWildcardId<Element>("precursor.*").ToList();
         var precursorToMemories = prec.Where(a => a.Aspects.ContainsKey("memory")).ToList();
+        var weathers = C.GetEntitiesMatchingWildcardId<Element>("weather.*").ToList();
         var memoriesRAW = new List<Element>();
         foreach (var e in precursorToMemories)
         {
             var mem = C.GetEntityById<Element>(e.DecayTo);
             memoriesRAW.Add(mem);
         }
+        memoriesRAW.AddRange(weathers);
         memoriesRAW = [.. memoriesRAW.OrderBy(a => a.Id)];
 
         Element[] lessonsRAW = [.. C.GetEntitiesMatchingWildcardId<Element>("x.*")
