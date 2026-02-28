@@ -1,12 +1,14 @@
 ﻿using MelonLoader;
 using Newtonsoft.Json;
 using SecretHistories.Entities;
+using SecretHistories.Spheres;
 using SecretHistories.Tokens.Payloads;
 using SecretHistories.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
-[assembly: MelonInfo(typeof(Mod), "AP_BookOfHours", "1.0.0", "Dustin", null)]
+[assembly: MelonInfo(typeof(Mod), "AP_BookOfHours", "1.0.0", "Gito", null)]
 [assembly: MelonGame("Weather Factory", "Book of Hours")]
 
 public class Mod : MelonMod
@@ -19,15 +21,16 @@ public class Mod : MelonMod
     private const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";
     public static ArchipelagoClient ArchipelagoClient;
 
-    private Compendium C { get; set; }
-    private HornedAxe H { get; set; }
+    public static Compendium Compendium { get; set; }
+    public static HornedAxe HornedAxe { get; set; }
+
+    public static SecretHistories.Spheres.Sphere Sundries_Tab { get; set; } = null;
 
     public override void OnInitializeMelon()
     {
         base.OnInitializeMelon();
 
         ArchipelagoClient = new ArchipelagoClient();
-        ArchipelagoConsole.Awake();
 
         MelonEvents.OnGUI.Subscribe(Draw);
         LoggerInstance.Msg("Initialized.");
@@ -36,13 +39,31 @@ public class Mod : MelonMod
     public override void OnLateInitializeMelon()
     {
         base.OnLateInitializeMelon();
-        C = Watchman.Get<Compendium>();
-        H = Watchman.Get<HornedAxe>();
+        //fetch unity-components
+        Compendium = Watchman.Get<Compendium>();
+        HornedAxe = Watchman.Get<HornedAxe>();
+        SceneManager.activeSceneChanged += (old, @new) =>
+        {
+            if (@new.name == "S4Library")
+            {
+                Sundries_Tab = GameObject.Find("MiscTraySphere").GetComponent<Sphere>();
+            }
+        };
 
     }
+    public override void OnApplicationQuit()
+    {
+        base.OnApplicationQuit();
+        SaveServerData();
+    }
+
+    private void SaveServerData()
+    {
+        File.WriteAllText(LocalFiles.SavefileWith(ArchipelagoClient.ServerData.Seed, "json"), ArchipelagoClient.ServerData.ToString());
+    }
+
     private void Draw()
     {
-        // show the mod is currently loaded in the corner
         GUI.Label(new Rect(16, 16, 300, 20), ModDisplayInfo);
         ArchipelagoConsole.OnGUI();
 
@@ -92,13 +113,14 @@ public class Mod : MelonMod
     {
         base.OnSceneWasLoaded(buildIndex, sceneName);
 
-        if (buildIndex != 5 || sceneName != "S4Library")
-            return;
-
-        PrepareAndDumpJson();
+        if (sceneName == "S4Library")
+        {
+            if (!File.Exists(LocalFiles.Jsondump_PATH))
+                PrepareAndDumpJson();
+        }
     }
 
-    List<JsonLine> jsondump = [];
+    private List<JsonLine> jsondump = [];
     void PrepareAndDumpJson()
     {
         /////////////////////////////////////////////////////////////////////////////////////
@@ -122,15 +144,15 @@ public class Mod : MelonMod
         wisdomtreeRAW = [.. wisdomtreeRAW.Prepend(center)];
 
         //////////////////////////////////
-        Recipe[] terrainsRAW = [.. C.GetEntitiesMatchingWildcardId<Recipe>("terrain.*")
+        Recipe[] terrainsRAW = [.. Compendium.GetEntitiesMatchingWildcardId<Recipe>("terrain.*")
             .OrderBy(a => a.Id)];
         Dictionary<string, ConnectedTerrain[]> dic = [];
-        foreach (var t in terrainTokens) 
+        foreach (var t in terrainTokens)
         {
             var conns = t.Patch_GetConnectedTerrain();//<- since these are alive gameobject datas, do not modify?
             // weird1: the Bridge has the Gatehouse in its ConnectedTerrains (the room AFTER unlocking the lodge), yet the bridge does NOT unlock the Gateouse in game
             // to not have such misinformation propagate to jsondump; remove from connections
-            if (t.Id == "cucurbitbridge" && conns.Any(a=>a.Id.Contains("gatehouse")))
+            if (t.Id == "cucurbitbridge" && conns.Any(a => a.Id.Contains("gatehouse")))
             {
                 conns = [.. conns.Where(a => !a.Id.Contains("gatehouse"))];
             }
@@ -138,26 +160,26 @@ public class Mod : MelonMod
             dic.Add($"terrain.{t.Id}", conns);
         }
         /// ////////////////////////////////////////////////////////////////////////////////
-        Element[] booksRAW = [.. C.GetEntitiesMatchingWildcardId<Element>("t.*")
+        Element[] booksRAW = [.. Compendium.GetEntitiesMatchingWildcardId<Element>("t.*")
             .OrderBy(a => a.Id)];
         /// ///////////////////////////////////////////////////////////////////////////
         ///health has a slightly different description, but this string matches all nine parts well enough: !! USE "X", NOT "X."
-        Element[] soulsRAW = [.. C.GetEntitiesMatchingWildcardId<Element>("x*").Where(a => a.Desc.Contains("of the nine parts of the")).ToList()
+        Element[] soulsRAW = [.. Compendium.GetEntitiesMatchingWildcardId<Element>("x*").Where(a => a.Desc.Contains("of the nine parts of the")).ToList()
             .OrderBy(a => a.Id)];
         /// //////////////////////////////////////////////////////////////////////////////////
-        var prec = C.GetEntitiesMatchingWildcardId<Element>("precursor.*").ToList();
+        var prec = Compendium.GetEntitiesMatchingWildcardId<Element>("precursor.*").ToList();
         var precursorToMemories = prec.Where(a => a.Aspects.ContainsKey("memory")).ToList();
-        var weathers = C.GetEntitiesMatchingWildcardId<Element>("weather.*").ToList();
+        var weathers = Compendium.GetEntitiesMatchingWildcardId<Element>("weather.*").ToList();
         var memoriesRAW = new List<Element>();
         foreach (var e in precursorToMemories)
         {
-            var mem = C.GetEntityById<Element>(e.DecayTo);
+            var mem = Compendium.GetEntityById<Element>(e.DecayTo);
             memoriesRAW.Add(mem);
         }
         memoriesRAW.AddRange(weathers);
         memoriesRAW = [.. memoriesRAW.OrderBy(a => a.Id)];
 
-        Element[] lessonsRAW = [.. C.GetEntitiesMatchingWildcardId<Element>("x.*")
+        Element[] lessonsRAW = [.. Compendium.GetEntitiesMatchingWildcardId<Element>("x.*")
             .OrderBy(a=>a.Id)];
         //the lesson 'x.summon.echidna' has no equivalent skill - I'll manually put it at the end of the list, only so that everyone else's id match better :>
         List<Element> lessonsModif = [.. lessonsRAW];
@@ -167,7 +189,7 @@ public class Mod : MelonMod
         lessonsRAW = [.. lessonsModif];
         ///var lessonsByLabel = c.GetEntitiesAsList<Element>().Where(a => a.Label.Contains("Lesson:")).ToList(); MATCHES lessons.count==74
         /// ////////////////////////////////////
-        Element[] skillsRAW = [.. C.GetEntitiesMatchingWildcardId<Element>("s.*")
+        Element[] skillsRAW = [.. Compendium.GetEntitiesMatchingWildcardId<Element>("s.*")
             .OrderBy(a => a.Id)];
         /// ////////////////////////////////////
         AddToJsondump(Make(memoriesRAW, "10"));
@@ -201,13 +223,13 @@ public class Mod : MelonMod
         }
     }
 
-    private JsonLine[] Make(IEnumerable<Element> ar, string startID)
+    private ElementJsonLine[] Make(IEnumerable<Element> ar, string startID)
     {
-        List<JsonLine> res = [];
+        List<ElementJsonLine> res = [];
         int i = 0;
         foreach (var e in ar)
         {
-            res.Add(new JsonLine { IdStr = e.Id, Label = e.Label, ApId = int.Parse(startID + $"{i + 1}") });
+            res.Add(new ElementJsonLine { IdStr = e.Id, Label = e.Label, Aspects = e.Aspects, ApId = int.Parse(startID + $"{i + 1}") });
             i++;
         }
         return [.. res];
@@ -221,7 +243,8 @@ public class Mod : MelonMod
             ConnectedTerrain[] cons = dic.TryGetValue(e.Id, out cons) ? cons : [];
             TerrainSimpleDetails[] t = [.. cons.Select(a => new TerrainSimpleDetails { IdStr = $"terrain.{a.Id}", Preface = a.Preface, Label = a.Label })];
             var d = e.PreSlots[0].Required;
-            res.Add(new TerrainJsonLine {
+            res.Add(new TerrainJsonLine
+            {
                 IdStr = e.Id,
                 Preface = e.Preface,
                 Label = e.Label,
@@ -279,13 +302,38 @@ public class JsonLine
 
     [JsonProperty(Order = 5)] public string Label { get; set; }
 
-    [JsonProperty(Order = 10)] public int ApId { get; set; }
-}
+    [JsonProperty(Order = 10)] public long ApId { get; set; }
 
+    public string Type
+    {
+        get
+        {
+            string sap = $"{ApId}";
+            var splits = sap.Split('0', 2);
+            var category = splits[0];
+            return category switch
+            {
+                "1" => "memory",
+                "2" => "soul",
+                "3" => "terrain",
+                "4" => "wisdom",
+                "5" => "book",
+                "6" => "lesson",
+                "7" => "skill",
+                "8" => "craft",
+                _ => throw new NotImplementedException(),
+            };
+        }
+    }
+}
+public class ElementJsonLine : JsonLine
+{
+    [JsonProperty(Order = 6)] public Dictionary<string, int> Aspects { get; set; }
+}
 public class TerrainJsonLine : JsonLine
 {
     [JsonProperty(Order = 4)] public string Preface { get; set; }
-    [JsonProperty(Order = 6)] public Dictionary<string, int> Requires {  get; set; }
+    [JsonProperty(Order = 6)] public Dictionary<string, int> Requires { get; set; }
 
     [JsonProperty(Order = 15)]
     public TerrainSimpleDetails[] ConnectsTo { get; set; }
