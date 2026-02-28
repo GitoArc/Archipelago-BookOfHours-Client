@@ -417,10 +417,12 @@
 	<ItemGroup>
 		<Compile Include="ArchipelagoConsole.cs" />
 		<Compile Include="ArchipelagoData.cs" />
+		<Compile Include="LocalFiles.cs" />
 		<Compile Include="Mod.cs" />
 		<Compile Include="ArchipelagoClient.cs" />
 		<Compile Include="DeathLinkHandler.cs" />
 		<Compile Include="Patch_ConnectedTerrain.cs" />
+		<Compile Include="Patch_DeckEffect.cs" />
 		<Compile Include="Patch_TransitionToState.cs" />
 		<Compile Include="Patch_WisdomNodeTerrain.cs" />
 	</ItemGroup>
