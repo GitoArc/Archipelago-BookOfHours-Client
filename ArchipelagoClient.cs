@@ -8,7 +8,6 @@ using MelonLoader;
 using Newtonsoft.Json;
 using SecretHistories.Entities;
 using SecretHistories.UI;
-using UnityEngine.SceneManagement;
 
 
 public class ArchipelagoClient
@@ -39,8 +38,6 @@ public class ArchipelagoClient
     public HashSet<string> LocalLocationsReached_NotYetSent_LABELS { get; private set; } = [];
     public List<ItemInfo> NotYetRewardedItems { get; private set; } = [];
 
-    private Dictionary<string, long> LOCATIONS { get; set; }
-    private Dictionary<string, long> ITEMS { get; set; }
 
     private Random Random { get; set; } = new Random(0);
     private Dictionary<string, long> slotData_MemoryProgression { get; set; } = null;
@@ -81,8 +78,8 @@ public class ArchipelagoClient
         {
             tier = int.Parse(splits[1]);
         }
-        for (int i = 1; i <= tier; i++)
-        { //this does not add a "Tier 0" for the Journal
+        for (int i = 1; i <= tier; i++) //this does not add a "Tier 0" for the Journal
+        {
             _ = LocalLocationsReached_NotYetSent_LABELS.Add($"Reached Tier {i}");
         }
         //log specific location
@@ -112,8 +109,6 @@ public class ArchipelagoClient
         DeathLinkHandler = new(Session.CreateDeathLinkService(), ServerData.SlotName);
 
         ServerData = TryLoadPreviousServerDataElseCreateNew(success, Session);
-        // should've applied via savedata, but just in case, sync with replied data
-        ServerData.CheckedLocations.UnionWith(Session.Locations.AllLocationsChecked);
 
         ulong lo = ulong.Parse(ServerData.Seed);
         int i = (int)(int.MaxValue & lo);
@@ -121,7 +116,9 @@ public class ArchipelagoClient
 
         slotData_MemoryProgression = JsonConvert.DeserializeObject<Dictionary<string, long>>(ServerData.SlotData["memory_progression"].ToString());
 
-        ArchipelagoConsole.LogMessage($"Successfully connected to {ServerData.Uri} as {ServerData.SlotName}!");
+        string msg = $"Successfully connected to {ServerData.Uri} as {ServerData.SlotName}!";
+        Melon<Mod>.Logger.Msg(msg);
+        ArchipelagoConsole.LogMessage(msg);
     }
 
     private ArchipelagoData TryLoadPreviousServerDataElseCreateNew(LoginSuccessful success, ArchipelagoSession session)
@@ -132,15 +129,18 @@ public class ArchipelagoClient
         ArchipelagoData data;
 
         string fname = LocalFiles.SavefileWith(session.RoomState.Seed, "json");
-        if (File.Exists(fname))
-        {
-            data = JsonConvert.DeserializeObject<ArchipelagoData>(File.ReadAllText(fname));
-        }
-        else
+        //if (File.Exists(fname))
+        //{
+        //    data = JsonConvert.DeserializeObject<ArchipelagoData>(File.ReadAllText(fname));   RUNTIME ERRORS: some data does not get read/ saved correctly?
+        //}
+        //else
         {
             data = new ArchipelagoData();
             data.SetupSession(success.SlotData, session.RoomState.Seed);
         }
+
+        // should've applied via savedata, but just in case, sync with replied data
+        data.CheckedLocations.UnionWith(session.Locations.AllLocationsChecked);
 
         return data;
     }
@@ -188,15 +188,27 @@ public class ArchipelagoClient
 
     private void CheckVictory(TransitionToStateEventArgs e)
     {
-        if (SceneManager.GetActiveScene().name != "S4Library")
+        if (Mod.Sundries_Tab is null)
+        {
+#if DEBUG
+            Melon<Mod>.Logger.Error($"{nameof(CheckVictory)} - {nameof(Mod.Sundries_Tab)} was not assigned ?!");
+#endif
             return;
+        }
+        if(ServerData.SlotData is null || ServerData.SlotData["victory_shards"] is null)
+        {
+#if DEBUG
+            Melon<Mod>.Logger.Error($"{nameof(CheckVictory)} - {nameof(ServerData.SlotData)} is faulty!");
+#endif
+            return;
+        }
 
         //if (e.Situation.CurrentRecipeId != "archipelago.recipe.reward")
         //    return;   THIS way, every recipe will cause this check to run...which is good? too spam-y?
 
-
-        int count = Mod.Sundries_Tab.Tokens.Count(a => a.PayloadEntityId == "archipelago.goal.part");
-        if (count >= Convert.ToInt32(ServerData.SlotData["victory_shards"]))
+        var victory_tokens = Mod.Sundries_Tab.Tokens.Where(a => a.PayloadEntityId.Contains("archipelago.goal"));
+        var total = victory_tokens.Sum(a => a.Quantity);
+        if (total >= Convert.ToInt32(ServerData.SlotData["victory_shards"]))
         {
             Session.SetClientState(ArchipelagoClientState.ClientGoal);
         }
@@ -204,6 +216,7 @@ public class ArchipelagoClient
 
     private void OnPacketReceived(ArchipelagoPacketBase packet)
     {
+        //since we receive packages, it means the ServerData and Session is valid
         if (packet is DataPackagePacket d)
         {
             ServerData.LOCATIONS = d.DataPackage.Games["Book of Hours"].LocationLookup;
@@ -222,9 +235,12 @@ public class ArchipelagoClient
         rec.Effects.Clear();
         if (EventItems.Count > 0)
         {
-            rec.Effects.TryAdd(EventItems[0], "1");
+            var ev = EventItems[0];
+            var elem = Mod.Compendium.GetEntityById<Element>(ev);
+            elem.Desc = "" + Random.Next(0, 100000);
+            rec.Effects.Add(EventItems[0], "1");
+            EventItems.RemoveAt(0);
         }
-        EventItems.RemoveAt(0);
         // Multi-Handling all items (but no exact descriptor)
         //foreach (var pending in EventItems)
         //{
@@ -235,11 +251,11 @@ public class ArchipelagoClient
         //}
         //EventItems.Clear();
 
-        //prioritises
+        //prioritises "EventItems"
         if (rec.Effects.Count is 0
             && NotYetRewardedItems.Count > 0)
         {
-            ///single reward lets me customize the log better
+            ///single reward lets me customize the log better //but after a !release with like 20+ Items, it feels too spam-y
             //foreach (var item in NotYetRewardedItems) {
             //    var n = item.ItemName.ToLower();
             //    if (!ree.Effects.TryAdd(n, "1")) {
@@ -248,7 +264,6 @@ public class ArchipelagoClient
             //    }
             //}
 
-            //but after a !release with like 20+ Items, it feels too spam-y
 
             var item = NotYetRewardedItems[0];
             NotYetRewardedItems.RemoveAt(0);
@@ -281,13 +296,12 @@ public class ArchipelagoClient
 
         var rec = e.Situation.GetCurrentRecipe();
 
-        List<string> _happened_locations_LABELS = [];
-        List<Element> all_elements_in_output = [];
-        HashSet<long> missing_locations = [.. Session.Locations.AllMissingLocations];
+        List<Element> _all_elements_in_output = [];
+        HashSet<long> _missing_locations = Session?.Locations.AllMissingLocations.ToHashSet() ?? []; //Session might be null if disconnect
 
         if (e.Situation.CurrentRecipeId.Contains("terrain."))
         {
-            _happened_locations_LABELS.Add(e.Situation.GetCurrentRecipe().Label);
+            LocalLocationsReached_NotYetSent_LABELS.Add(e.Situation.GetCurrentRecipe().Label);
         }
         else if (false) //x. s. wisdom craft
         {
@@ -304,17 +318,17 @@ public class ArchipelagoClient
                                       // safest bet is to ignore this token?
 
                 var elem = Mod.Compendium.GetEntityById<Element>(idstr);
-                all_elements_in_output.Add(elem);
+                _all_elements_in_output.Add(elem);
             }
-            _happened_locations_LABELS.AddRange(all_elements_in_output.Select(a => a.Label));
+            LocalLocationsReached_NotYetSent_LABELS.UnionWith(_all_elements_in_output.Select(a => a.Label));
         }
         ////////////////////////////////////////////
         //add progressive locations
-        if (all_elements_in_output.Count > 0)
+        if (_all_elements_in_output.Count > 0)
         {
             //////////////////////////////////////////
             //roll chance if location does count for progression
-            foreach (var elem in all_elements_in_output)
+            foreach (var elem in _all_elements_in_output)
             {
                 if (elem.Inherits.Contains("memory"))
                 {
@@ -336,26 +350,28 @@ public class ArchipelagoClient
                 var kes = ServerData.LOCATIONS.Select(a => a.Key).ToHashSet();
                 var pred = kes.Where(a => a.Contains($"Remember {i} "));
                 foreach (var p in pred)
-                    _happened_locations_LABELS.Add(p);
+                    LocalLocationsReached_NotYetSent_LABELS.Add(p);
             }
 
-            if (ServerData.Progression_Memories_TotalRemembered == Convert.ToInt32(slotData_MemoryProgression["goal"]))
+            if (true || ServerData.Progression_Memories_TotalRemembered == Convert.ToInt32(slotData_MemoryProgression["goal"]))
             {
                 EventItems.Add("archipelago.goal.part");
+                //track if this item was delivered
+                // ! might be hacky?
+                slotData_MemoryProgression["goal"] = -1;
             }
         }
 
         //send to server
-        if (_happened_locations_LABELS.Count > 0 && missing_locations.Count > 0)
+        /// split into own hook?
+        HashSet<KeyValuePair<string, long>> _label_id_kvs = [.. from id in Session.Locations.AllMissingLocations
+                                                        join kv in ServerData.LOCATIONS on id equals kv.Value
+                                                                                             select kv];
+        HashSet<KeyValuePair<string, long>> _locations = [.. _label_id_kvs.Where(a => LocalLocationsReached_NotYetSent_LABELS.Any(b => a.Key.Contains(b)))];
+        if (_locations.Count > 0)
         {
-            HashSet<KeyValuePair<string, long>> alloweds = [.. LOCATIONS.Where(a => missing_locations.Contains(a.Value))];
-            KeyValuePair<string, long>[] pairs = [.. alloweds.Where(a => _happened_locations_LABELS.Any(b => a.Key.Contains(b)))];
-            if (pairs.Length > 0)
-            {
-                long[] unchecked_locations = [.. pairs.Select(a => a.Value)];
-
-                Session.Locations.CompleteLocationChecks(unchecked_locations);
-            }
+            long[] unchecked_locations = [.. _locations.Select(a => a.Value)];
+            Session.Locations.CompleteLocationChecks(unchecked_locations);
         }
 
         return;
@@ -402,7 +418,7 @@ public class ArchipelagoClient
                      ItemsHandlingFlags.IncludeOwnItems,
                      new Version(APVersion),
                      password: ServerData.Password,
-                     requestSlotData: ServerData.NeedSlotData
+                     requestSlotData: true
                  ));
         }
         catch (Exception e)
