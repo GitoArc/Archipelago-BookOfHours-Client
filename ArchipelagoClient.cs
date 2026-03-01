@@ -97,7 +97,7 @@ public class ArchipelagoClient
         var server = Session.Locations.AllMissingLocations;
 
         var l2 = (from id in Session.Locations.AllMissingLocations
-                  join l in LOCATIONS on id equals l.Value
+                  join l in ServerData.LOCATIONS on id equals l.Value
                   select l).ToArray();
         return l2;
     }
@@ -206,8 +206,8 @@ public class ArchipelagoClient
     {
         if (packet is DataPackagePacket d)
         {
-            LOCATIONS = d.DataPackage.Games["Book of Hours"].LocationLookup;
-            ITEMS = d.DataPackage.Games["Book of Hours"].ItemLookup;
+            ServerData.LOCATIONS = d.DataPackage.Games["Book of Hours"].LocationLookup;
+            ServerData.ITEMS = d.DataPackage.Games["Book of Hours"].ItemLookup;
         }
     }
 
@@ -333,7 +333,7 @@ public class ArchipelagoClient
 
             for (int i = 1; i <= ServerData.Progression_Memories_TotalRemembered; i++)
             {
-                var kes = LOCATIONS.Select(a => a.Key).ToHashSet();
+                var kes = ServerData.LOCATIONS.Select(a => a.Key).ToHashSet();
                 var pred = kes.Where(a => a.Contains($"Remember {i} "));
                 foreach (var p in pred)
                     _happened_locations_LABELS.Add(p);

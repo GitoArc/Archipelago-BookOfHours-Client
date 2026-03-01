@@ -7,6 +7,10 @@ public class ArchipelagoData
     public string SlotName { get; set; }
     public string Password { get; set; }
     public int Latest_Index_from_Server { get; set; }
+
+    public Dictionary<string, long> LOCATIONS { get; set; } = [];
+    public Dictionary<string, long> ITEMS { get; set; } = [];
+
     public HashSet<long> CheckedLocations { get; private set; } = [];
 
     public int Progression_Memories_TotalRemembered { get; set; } = 0;
@@ -19,7 +23,7 @@ public class ArchipelagoData
     /// </summary>
     public string Seed { get; private set; }
 
-    public Dictionary<string, object> SlotData { get; private set; } = null;
+    public Dictionary<string, object> SlotData { get; private set; } = [];
 
     public bool NeedSlotData => SlotData == null;
 
