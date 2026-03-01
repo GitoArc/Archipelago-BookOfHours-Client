@@ -3,28 +3,30 @@
 
 public class ArchipelagoData
 {
-    public string Uri;
-    public string SlotName;
-    public string Password;
-    public int Index;
+    public string Uri { get; set; }
+    public string SlotName { get; set; }
+    public string Password { get; set; }
+    public int Latest_Index_from_Server { get; set; }
+    public HashSet<long> CheckedLocations { get; private set; } = [];
 
-    public List<long> CheckedLocations;
+    public int Progression_Memories_TotalRemembered { get; set; } = 0;
+    public int Progression_Souls_TotalAcquired { get; set; } = 0;
+    public int Progression_Wisdoms_TotalCommitted { get; set; } = 0;
 
     /// <summary>
     /// seed for this archipelago data. Can be used when loading a file to verify the session the player is trying to
     /// load is valid to the room it's connecting to.
     /// </summary>
-    private string seed;
+    public string Seed { get; private set; }
 
-    private Dictionary<string, object> slotData;
+    public Dictionary<string, object> SlotData { get; private set; } = null;
 
-    public bool NeedSlotData => slotData == null;
+    public bool NeedSlotData => SlotData == null;
 
     public ArchipelagoData()
     {
         Uri = "localhost";
         SlotName = "Player1";
-        CheckedLocations = [];
     }
 
     public ArchipelagoData(string uri, string slotName, string password)
@@ -32,7 +34,6 @@ public class ArchipelagoData
         Uri = uri;
         SlotName = slotName;
         Password = password;
-        CheckedLocations = [];
     }
 
     /// <summary>
@@ -42,8 +43,8 @@ public class ArchipelagoData
     /// <param name="roomSeed">seed name of this session</param>
     public void SetupSession(Dictionary<string, object> roomSlotData, string roomSeed)
     {
-        slotData = roomSlotData;
-        seed = roomSeed;
+        SlotData = roomSlotData;
+        Seed = roomSeed;
     }
 
     /// <summary>
