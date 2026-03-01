@@ -5,7 +5,6 @@ using SecretHistories.Spheres;
 using SecretHistories.Tokens.Payloads;
 using SecretHistories.UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 
 [assembly: MelonInfo(typeof(Mod), "AP_BookOfHours", "1.0.0", "Gito", null)]
@@ -57,16 +56,8 @@ public class Mod : MelonMod
                 continue;
             _ = LabelToId.TryAdd(element.Label, element.Id);
         }
-
-        SceneManager.activeSceneChanged += (old, @new) =>
-        {
-            if (@new.name == "S4Library")
-            {
-                Sundries_Tab = GameObject.Find("MiscTraySphere").GetComponent<Sphere>();
-            }
-        };
-
     }
+
     public override void OnApplicationQuit()
     {
         base.OnApplicationQuit();
@@ -125,12 +116,15 @@ public class Mod : MelonMod
         // this is a good place to create and add a bunch of debug buttons
     }
 
+    
     public override void OnSceneWasLoaded(int buildIndex, string sceneName)
     {
         base.OnSceneWasLoaded(buildIndex, sceneName);
 
         if (sceneName == "S4Library")
         {
+            Sundries_Tab = GameObject.Find("MiscTraySphere").GetComponent<Sphere>();
+
             if (!File.Exists(LocalFiles.Jsondump_PATH))
                 PrepareAndDumpJsonTo(LocalFiles.Jsondump_PATH);
         }
