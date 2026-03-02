@@ -202,13 +202,13 @@ public class Mod : MelonMod
         Element[] skillsRAW = [.. Compendium.GetEntitiesMatchingWildcardId<Element>("s.*")
             .OrderBy(a => a.Id)];
         /// ////////////////////////////////////
-        AddToJsondump(Make(memoriesRAW, "10"));
-        AddToJsondump(Make(soulsRAW, "20"));
-        AddToJsondump(Make(terrainsRAW, dic, "30"));
-        AddToJsondump(Make(wisdomtreeRAW, "40"));
-        AddToJsondump(MakeBooks(booksRAW, "50"));
-        AddToJsondump(Make(lessonsRAW, "60"));
-        AddToJsondump(Make(skillsRAW, "70"));
+        AddToJsondump(Make(memoriesRAW, 1));
+        AddToJsondump(Make(soulsRAW, 2));
+        AddToJsondump(Make(terrainsRAW, dic, 3));
+        AddToJsondump(Make(wisdomtreeRAW, 4));
+        AddToJsondump(MakeBooks(booksRAW, 5));
+        AddToJsondump(Make(lessonsRAW, 6));
+        AddToJsondump(Make(skillsRAW, 7));
 
         string LocalLowPath =
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).Replace("Roaming", "LocalLow");
@@ -233,18 +233,18 @@ public class Mod : MelonMod
         }
     }
 
-    private ElementJsonLine[] Make(IEnumerable<Element> ar, string startID)
+    private ElementJsonLine[] Make(IEnumerable<Element> ar, int category)
     {
         List<ElementJsonLine> res = [];
         int i = 0;
         foreach (var e in ar)
         {
-            res.Add(new ElementJsonLine { IdStr = e.Id, Label = e.Label, Aspects = e.Aspects, ApId = int.Parse(startID + $"{i + 1}") });
+            res.Add(new ElementJsonLine { IdStr = e.Id, Label = e.Label, Aspects = e.Aspects, Category = category });
             i++;
         }
         return [.. res];
     }
-    private BookJsonLine[] MakeBooks(IEnumerable<Element> ar, string startID)
+    private BookJsonLine[] MakeBooks(IEnumerable<Element> ar, int category)
     {
         List<BookJsonLine> res = [];
         int i = 0;
@@ -255,28 +255,28 @@ public class Mod : MelonMod
                 IdStr = e.Id,
                 Label = e.Label,
                 Aspects = e.Aspects,
-                ApId = int.Parse(startID + $"{i + 1}"),
+                Category = category,
                 Rewards = e.XTriggers.ToDictionary(a => a.Key, a => a.Value.Single().Id)
             });
             i++;
         }
         return [.. res];
     }
-    private TerrainJsonLine[] Make(IEnumerable<Recipe> ar, Dictionary<string, ConnectedTerrain[]> dic, string startID)
+    private TerrainJsonLine[] Make(IEnumerable<Recipe> ar, Dictionary<string, ConnectedTerrain[]> dic, int category)
     {
         List<TerrainJsonLine> res = [];
         int i = 0;
         foreach (Recipe e in ar)
         {
             ConnectedTerrain[] cons = dic.TryGetValue(e.Id, out cons) ? cons : [];
-            TerrainSimpleDetails[] t = [.. cons.Select(a => new TerrainSimpleDetails { IdStr = $"terrain.{a.Id}", Preface = a.Preface, Label = a.Label })];
+            TerrainSimpleDetails[] t = [.. cons.Select(a => new TerrainSimpleDetails { IdStr = $"terrain.{a.Id}", Preface = a.Preface, Label = a.Label,  Category = category })];
             var d = e.PreSlots[0].Required;
             res.Add(new TerrainJsonLine
             {
                 IdStr = e.Id,
                 Preface = e.Preface,
                 Label = e.Label,
-                ApId = int.Parse(startID + $"{i + 1}"),
+                Category = category,
                 Requires = d,
                 ConnectsTo = t
             });
@@ -284,13 +284,13 @@ public class Mod : MelonMod
         }
         return [.. res];
     }
-    private JsonLine[] Make(IEnumerable<WisdomNodeTerrain> ar, string startID)
+    private JsonLine[] Make(IEnumerable<WisdomNodeTerrain> ar, int category)
     {
         List<JsonLine> res = [];
         int i = 0;
         foreach (var e in ar)
         {
-            res.Add(new JsonLine { IdStr = e.Id, Label = MakeLabelFromWisdomIdstr(e.Id), ApId = int.Parse(startID + $"{i + 1}") });
+            res.Add(new JsonLine { IdStr = e.Id, Label = MakeLabelFromWisdomIdstr(e.Id), Category = category });
             i++;
         }
         return [.. res];
@@ -349,24 +349,22 @@ public class JsonLine
 
     [JsonProperty(Order = 5)] public string Label { get; set; }
 
-    [JsonProperty(Order = 10)] public long ApId { get; set; }
+    [JsonProperty(Order = 10)] public int Category { get; set; }
 
     //as method so it wont get serialized
-    public string GetCategory()
+    public string GetCategoryName()
     {
-        string sap = $"{ApId}";
-        var splits = sap.Split('0', 2);
-        var category = splits[0];
-        return category switch
+        //maybe better to use enum
+        return Category switch
         {
-            "1" => "memory",
-            "2" => "soul",
-            "3" => "terrain",
-            "4" => "wisdom",
-            "5" => "book",
-            "6" => "lesson",
-            "7" => "skill",
-            "8" => "craft",
+            1 => "memory",
+            2 => "soul",
+            3 => "terrain",
+            4 => "wisdom",
+            5 => "book",
+            6 => "lesson",
+            7 => "skill",
+            8 => "craft",
             _ => throw new NotImplementedException(),
         };
     }
@@ -384,11 +382,9 @@ public class TerrainJsonLine : JsonLine
     public TerrainSimpleDetails[] ConnectsTo { get; set; }
 }
 
-public class TerrainSimpleDetails
+public class TerrainSimpleDetails : JsonLine
 {
-    [JsonProperty(Order = 1)] public string IdStr { get; set; }
     [JsonProperty(Order = 2)] public string Preface { get; set; }
-    [JsonProperty(Order = 3)] public string Label { get; set; }
 }
 
 public class BookJsonLine : ElementJsonLine
