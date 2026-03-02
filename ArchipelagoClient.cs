@@ -68,8 +68,7 @@ public class ArchipelagoClient
         ServerData.Progression_Wisdoms_TotalCommitted++;
         for (int i = 1; i <= ServerData.Progression_Wisdoms_TotalCommitted; i++)
         {
-            string str = i == 1 ? $"Committed 1 skill" : $"Committed {i} skills";
-            _ = LocalLocationsReached_NotYetSent_LABELS.Add(str);
+            _ = LocalLocationsReached_NotYetSent_LABELS.Add($"Commit {i} skill");
         }
         //log tier progression
         var splits = id.Replace("wt.", "").Split('.');
@@ -80,10 +79,10 @@ public class ArchipelagoClient
         }
         for (int i = 1; i <= tier; i++) //this does not add a "Tier 0" for the Journal
         {
-            _ = LocalLocationsReached_NotYetSent_LABELS.Add($"Reached Tier {i}");
+            _ = LocalLocationsReached_NotYetSent_LABELS.Add($"Reach Tier {i}");
         }
         //log specific location
-        _ = LocalLocationsReached_NotYetSent_LABELS.Add($"Committed {Mod.MakeLabelFromWisdomIdstr(id)}");
+        _ = LocalLocationsReached_NotYetSent_LABELS.Add($"Commit {Mod.MakeLabelFromWisdomIdstr(id)}");
     }
 
     private KeyValuePair<string, long>[] GetNotYetCheckedLocations()
