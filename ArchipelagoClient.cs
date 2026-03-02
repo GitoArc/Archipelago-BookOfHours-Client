@@ -353,7 +353,7 @@ public class ArchipelagoClient
                     LocalLocationsReached_NotYetSent_LABELS.Add(p);
             }
 
-            if (true || ServerData.Progression_Memories_TotalRemembered == Convert.ToInt32(slotData_MemoryProgression["goal"]))
+            if (ServerData.Progression_Memories_TotalRemembered == Convert.ToInt32(slotData_MemoryProgression["goal"]))
             {
                 EventItems.Add("archipelago.goal.part");
                 //track if this item was delivered
