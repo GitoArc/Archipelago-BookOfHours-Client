@@ -30,7 +30,7 @@ public class ArchipelagoData
     public ArchipelagoData()
     {
         Uri = "localhost";
-        SlotName = "Player1";
+        SlotName = "Librarian1";
     }
 
     public ArchipelagoData(string uri, string slotName, string password)
