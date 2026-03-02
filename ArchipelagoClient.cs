@@ -109,9 +109,10 @@ public class ArchipelagoClient
 
         ServerData = TryLoadPreviousServerDataElseCreateNew(success, Session);
 
-        ulong lo = ulong.Parse(ServerData.Seed);
-        int i = (int)(int.MaxValue & lo);
-        Random = new Random(i); //maybe Random(0) is enough? Since it heavily depends what actions the user does, this might be indistinguishable from seeded random?
+        //ulong lo = ulong.Parse(ServerData.Seed); will also throw when the seed cannot fit (which happened a lot bc its a string)
+        //int i = (int)(int.MaxValue & lo);
+        //Random = new Random(i); //maybe Random(0) is enough? Since it heavily depends what actions the user does, this might be indistinguishable from seeded random?
+        Random = new Random(0);
 
         slotData_MemoryProgression = JsonConvert.DeserializeObject<Dictionary<string, long>>(ServerData.SlotData["memory_progression"].ToString());
 
